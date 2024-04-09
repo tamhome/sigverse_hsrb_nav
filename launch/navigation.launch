@@ -1,7 +1,7 @@
 <launch>
 
   <arg name="use_map_server" default="true" />
-  <arg name="map_path" default="$(find sigverse_hsrb_nav)/launch/map.yaml" />
+  <arg name="map_path" default="$(find sigverse_hsrb_nav)/map/map.yaml" />
   <arg name="use_map_topic" default="false" />
 
   <include file="$(find sigverse_hsrb_nav)/launch/amcl.launch">
