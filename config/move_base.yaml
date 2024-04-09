@@ -1,0 +1,61 @@
+base_global_planner: "navfn/NavfnROS"
+# base_local_planner: "base_local_planner/TrajectoryPlannerROS"
+base_local_planner: "dwa_local_planner/DWAPlannerROS"
+
+oscillation_timeout: 10.0
+oscillation_distance: 0.5
+
+# Global planner
+planner_frequency: 0.0
+planner_patience: 1.0
+NavfnROS:
+  allow_unknown: true
+  default_tolerance: 0.0
+  planner_window_x: 0.0
+  planner_window_y: 0.0
+  visualize_potential: false
+
+# Local planner
+controller_frequency: 10.0
+controller_patience: 5.0
+#TrajectoryPlannerROS:
+DWAPlannerROS:
+
+  acc_lim_x: 3.0
+  acc_lim_y: 3.0
+  acc_lim_theta: 15.0
+  max_vel_trans: 0.3 # only for dwa
+  min_vel_trans: 0.1  # only for dwa
+  max_vel_x: 0.3
+  min_vel_x: 0.0
+  max_vel_y: 0.3
+  min_vel_y: -0.3
+  max_rot_vel: 1.0 # only for dwa
+  min_rot_vel: 0.4 # only for dwa
+  max_vel_theta: 1.5
+  min_vel_theta: 0.1
+  min_in_place_vel_theta: 0.4
+  holonomic_robot: true
+
+  yaw_goal_tolerance: 0.1
+  xy_goal_tolerance: 0.1
+  latch_xy_goal_tolerance: true
+  sim_time: 1.7
+  sim_granularity: 0.025
+  angular_sim_granularity: 0.025
+  vx_samples: 6
+  vy_sample: 6
+  vtheta_samples: 12
+  meter_scoring: true
+  pdist_scale: 0.6
+  gdist_scale: 0.6
+  occdist_scale: 0.01
+  heading_lookahead: 0.325
+  heading_scoring: false
+  heading_scoring_timestep: 0.8
+  dwa: false
+  publish_cost_grid_pc: false
+  oscillation_reset_dist: 0.05
+
+  # only for dwa
+  use_dwa: true

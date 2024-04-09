@@ -1,0 +1,15 @@
+<launch>
+
+  <arg name="use_map_server" default="true" />
+  <arg name="map_path" default="$(find sigverse_hsr_nav)/launch/map.yaml" />
+  <arg name="use_map_topic" default="false" />
+
+  <include file="$(find sigverse_hsr_nav)/launch/amcl.launch">
+    <arg name="use_map_server" value="$(arg use_map_server)" />
+    <arg name="map_path" value="$(arg map_path)" />
+    <arg name="use_map_topic" default="$(arg use_map_topic)" />
+  </include>
+  
+  <include file="$(find sigverse_hsr_nav)/launch/move_base.launch" />
+
+</launch>
