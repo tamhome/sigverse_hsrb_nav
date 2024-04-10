@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(sigverse_hsr_nav)
+project(sigverse_hsrb_nav)
 
 add_compile_options(-std=c++14)
 
