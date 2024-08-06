@@ -22,6 +22,7 @@ from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 
 class HSRBNavigation(Logger):
     def __init__(self):
+        Logger.__init__(self, loglevel="INFO")
         self.local_il_client = dynamic_reconfigure.client.Client("/move_base/local_costmap/inflation_layer")
         self.global_il_client = dynamic_reconfigure.client.Client("/move_base/global_costmap/inflation_layer")
 
@@ -35,7 +36,7 @@ class HSRBNavigation(Logger):
         rospy.loginfo("Connected to move base server")
 
         self.rate = rospy.Rate(10)
-        self.timeout_time = rospy.Time.now() + rospy.Duration(self.timeout)
+        self.timeout = rospy.Duration(60)
 
     def _set_initialpose(self, x: float, y: float, yaw: float) -> None:
         """
@@ -76,7 +77,7 @@ class HSRBNavigation(Logger):
     def update_global_costmap(self, radius=0.75):
         self.global_il_client.update_configuration({"inflation_radius": radius})
 
-    def navigation(self, goal_pose: Pose2D, mode="abs", goal_torelance=(0.5, 0.5)) -> bool:
+    def navigation(self, goal_pose: Pose2D, mode="abs", goal_torelance=(0.05, 0.05)) -> bool:
         """navigationを行う関数
         Args:
             goal_pose(Pose2D): ナビゲーションの目的地を設定
@@ -87,6 +88,7 @@ class HSRBNavigation(Logger):
             bool: ナビゲーションに成功したかどうか
         """
         try:
+            start_time = rospy.Time.now()
             self.loginfo(f"navigation mode is {mode}")
             self.loginfo(f"navigation goal x={goal_pose.x}, y={goal_pose.y}, yaw={goal_pose.theta}")
 
@@ -112,8 +114,7 @@ class HSRBNavigation(Logger):
             goal_msg.target_pose.pose.orientation.w = q[3]
 
             self.move_base_client.send_goal(goal_msg)
-
-            while rospy.Time.now() < self.timeout_time:
+            while (rospy.Time.now() - start_time) < self.timeout:
                 action_state = self.move_base_client.get_state()
 
                 if action_state == actionlib.GoalStatus.SUCCEEDED:

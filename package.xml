@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>sigverse_hsr_nav</name>
+  <name>sigverse_hsrb_nav</name>
   <version>0.0.1</version>
-  <description>The sigverse_hsr_nav package</description>
+  <description>The sigverse_hsrb_nav package</description>
 
   <maintainer email="yano.yuuga158@mail.kyutech.jp">Yuga Yano</maintainer>
 

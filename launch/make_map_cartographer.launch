@@ -16,16 +16,25 @@
   limitations under the License.
 -->
 
+
 <launch>
-  <node name="cartographer" pkg="cartographer_ros"
-      type="cartographer_node" args="
+  <arg name="use_rviz" default="true"/>
+  <node name="cartographer" pkg="cartographer_ros" type="cartographer_node" args="
           -configuration_directory $(find cartographer_toyota_hsr)/configuration_files
           -configuration_basename toyota_hsr_2d.lua"
       output="screen">
-    <remap from="scan" to="hsrb/base_scan" />
-    <remap from="odom" to="hsrb/odom" />
+    <remap from="scan" to="/hsrb/base_scan" />
+    <remap from="odom" to="/hsrb/odom" />
   </node>
 
-  <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros"
-      type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
+  <node name="cartographer_occupancy_grid_node" pkg="cartographer_ros" type="cartographer_occupancy_grid_node" args="-resolution 0.05" />
+
+  <include file="$(find sigverse_hsrb_utils)/launch/teleop.launch" />
+
+  <group if="$(arg use_rviz)">
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find sigverse_hsrb_nav)/config/make_map.rviz" />
+  </group>
+
+
+
 </launch>
